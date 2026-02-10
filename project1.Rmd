@@ -1,0 +1,23 @@
+---
+title: "project1"
+author: "Kevin Chavez Lopez, Rian Russell, and Yating Wu"
+date: "2026-02-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Offer a preliminary description of the data set. For example, indicate the size of the data source, describe the variables, and include any other data profile information that would be of interest.
+
+The cleaned data has around 1873 observations and 14 variables (including response, latency, and velocity).
+
+3. Using R code, produce a full Regression Model that consists of quantitative and categorical variables. Make use of the R generated dummy variable matrices.
+
+```{r}
+
+
+
+```
+
