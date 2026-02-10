@@ -1,9 +1,9 @@
 The dataset that we will be working with contains 1873 observations of nine rats performing a perceptual decision-making task. This dataset contains a total of 14 columns that describe the following:
   - Four categorical variables:
-  -- Name
-      Session
-      Sex
-      Cue
+  - Name
+  - Session
+  - Sex
+  - Cue
       
   Ten quantitative variables:
       Time (potentially useless as it only represents the time at which the event on the corresponding row occured!)
