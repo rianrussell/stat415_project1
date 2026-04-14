@@ -1,0 +1,49 @@
+---
+title: "Regression Project: modeltwo"
+author: "Rian Russell"
+date: "2026-04-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Importing the data:
+
+```{r}
+
+cleanData <- read_csv("STAT615_Project1_CLEAN.csv")
+dim(cleanData)
+
+```
+
+Creating modeltwo:
+
+```{r}
+
+modeltwo <- projectModel <- lm(rt ~ sampling + velocity + cue + sex, data = cleanData)
+modeltwo
+
+# Quantitative: sampling and velocity
+
+# Categorical: cue and sex
+
+# We can't use latency because rt depends directly on latency
+# Response time = sampling + latency (but sampling has less of an effect than latency on rt)
+
+```
+
+Dummy variable matrices for categorical variables:
+
+```{r}
+
+contrasts(as.factor(cleanData$cue))
+contrasts(as.factor(cleanData$sex))
+
+```
+
+The variable cue has three categories, 1, 4, and 16 (referring to the number of LEDs in the cue). The variable sex has two categories, 0 and 1 (female and male respectively).
+
+It might be worth mentioning that the male (5) and female (7) groups are unbalanced.
