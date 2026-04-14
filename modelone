@@ -1,0 +1,131 @@
+---
+title: "Regression Project"
+date: "February 10, 2026"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Offer a preliminary description of the data set. For example, indicate the size of the data source, describe the variables, and include any other data profile information that would be of interest.
+
+The dataset that we will be working with contains 1873 observations of nine rats performing a perceptual decision-making task. This dataset contains a total of 14 columns that describe the following: Four categorical variables:
+
+- Name
+- Session
+- Sex
+- Cue
+
+Ten quantitative variables:
+
+- Time (potentially useless as it only represents the time at which the event on the corresponding row occured!)
+- Sampling (Time that the rat spent at the center port)
+- Latency (Time between departing the center port and nose-poking a side port)
+- Cue (Three brightness levels: 1, 4, 16 pixels)
+- Presented (What side the given Cue was presented on. 0 = Left, 1 = Right)
+- Choice (What side the rat nosepoked. 0 = Left, 1 = Right)
+- Response (The outcome of such choice. 0 = Error, 1 = Correct)
+- ITI (Time difference BETWEEN trials)
+- Velocity (The max velocity that the rat achieved during a trial)
+- Time2peak (How long it took to reach the max velocity above)
+- RT (Sampling + Latency variables. Combined to determine)
+
+3. Using R code, produce a full Regression Model that consists of quantitative and categorical variables. Make use of the R generated dummy variable matrices.
+
+```{r}
+
+library(tidyverse)
+
+```
+
+```{r}
+
+cleanData <- read_csv("STAT615_Project1_CLEAN.csv")
+dim(cleanData)
+
+```
+
+We want to look at the difference between cue (independent) on response time (dependent).
+
+```{r}
+
+lm(cue ~ rt, data = cleanData)
+
+
+```
+
+```{r}
+#1.A description and profile of your data/project
+
+#This is a clean behavioral neuroscience dataset with 1,873 trials from 9 rodents: EE07–EE11, RZ03–RZ05, JP10) in a PBS treatment condition (single session type).
+#the Key variables in this dataset include trial timing (time, latency, rt), cue/response accuracy (cue, presented, choice, response), inter-trial interval (iti), and kinematic measures (velocity, time2peak).males=1, females=0. response(0)is "wrong" and response(1) is "right".All the EEs and JPs and females, all the RZs are males.
+
+#2.A regression model that finds the expected value of a continuous variable using two or three quantitative variables. Name this model modelone
+library(tidyverse)
+library(lubridate)
+install.packages("readr")
+
+getwd()
+
+#import dataset
+library(readr)
+
+STAT415_Project1_CLEAN <- read_csv("C:/Users/Cline/OneDrive/桌面/STAT-415 group project/STAT615_Project1_CLEAN.csv")
+View(STAT415_Project1_CLEAN)
+
+modelone <- lm(iti ~ velocity, data = STAT415_Project1_CLEAN)
+
+summary(modelone)
+
+#3.Find 95% confidence intervals for your predictor variables
+confint(modelone, level = 0.95)
+#interpretation:
+#When response = 0, the expected value of sampling is 0.0755 (95% CI: 0.0686 – 0.0823).
+#When response = 1, the expected value of sampling increases by 0.0083 units (95% CI: 0.0011 – 0.0155).
+#The effect of response is statistically significant at α = 0.05.
+
+#4.Use and show R code to find the residuals and the fitted values of modelone.
+#Get Fitted Values
+# Assuming your model is already built
+
+# 1. Get Fitted Values
+fitted_values <- fitted(modelone)
+
+# 2. Get Residuals
+residuals <- residuals(modelone)
+
+# 3. Add them to  original dataset
+STAT415_Project1_CLEAN$fitted <- fitted_values
+STAT415_Project1_CLEAN$residuals <- residuals
+
+# View summary statistics
+summary(fitted_values)
+summary(residuals)
+
+# Preview first 10 rows with actual, fitted, and residuals
+head(STAT415_Project1_CLEAN[, c("sampling", "response", "fitted", "residuals")], 10)
+
+# combined table
+results_table <- data.frame(
+  Actual     = STAT415_Project1_CLEAN$sampling,
+  Response   = STAT415_Project1_CLEAN$response,
+  Fitted     = fitted_values,
+  Residuals  = residuals
+)
+
+head(results_table, 15)
+
+#5.Use and show r code to check for multicollinearity for modelone.
+
+STAT415_Project1_CLEAN%>%
+select(iti, velocity) -> dataReduced
+dataReduced
+cor(dataReduced)
+
+#6.Use and show R code to report on the Adjusted R^2 value, p values for the predictors, and the overall significance of the modelone.
+summary(modelone)
+
+```
+
+
