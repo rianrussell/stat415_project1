@@ -1,0 +1,31 @@
+---
+title: "STAT-615-Group_Project-Model3"
+author: "Kevin Chávez-López"
+output: html_document
+date: "2026-04-14"
+---
+
+Code for and output a linear regression model that will predict a
+quantitative/continuous variable using only one quantitative/continuous
+predictor variable. Name this model modelthree
+
+Run the R function summary on modelthree. Point to and discuss the
+important metrics for modelthree found in the summary table.
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+Rats <- read_csv("STAT615_Project1_CLEAN.csv")
+Rats
+```
+
+```{r}
+# Figuring out Intercept and Slope of the equation
+  lm(Rats$rt~Rats$iti)->modelthree
+  modelthree
+  summary(modelthree)
+```
+Given the really low R-squared (0.0003301) and high (0.432) p-values, we can determine that the duration of a trial is not a factor that varies along with how long it takes for a rat to choose one port vs another. Other factors are more important when it comes to determining the rate of change in Response Times.
